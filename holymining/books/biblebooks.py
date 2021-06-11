@@ -140,7 +140,7 @@ idx2books = [
 		"rev"
 ]
 
-books2idx = {bookname: idx+1 for idx, bookname in zip(idx2books)}
+books2idx = {bookname: idx+1 for idx, bookname in enumerate(idx2books)}
 idx2books = {idx: bookname for bookname, idx in books2idx.items()}
 
 def wholebible_book_iterator():
@@ -151,7 +151,7 @@ def wholebible_book_iterator():
 
 
 def getBookName(key):
-    if otbookdict.has_key(key):
+    if key in otbookdict:
         return otbookdict[key]
     else:
         return ntbookdict[key]

@@ -2,7 +2,7 @@
 import tables as tb
 
 
-class BibleH5FeatureStore:
+class BibleH5FeatureStoreCreator:
     def __init__(self, path, vecdim):
         self.path = path
         self.vecdim = vecdim
@@ -22,6 +22,24 @@ class BibleH5FeatureStore:
         row.append()
 
         self.table.flush()
+
+    def close(self):
+        self.h5file.close()
+
+
+class BibleH5FeatureStoreRetriever:
+    def __init__(self, path):
+        self.path = path
+        self.h5file = tb.open_file(self.path, 'r')
+        self.table = self.h5file.root.bible_embedding
+
+    def extract_embedding(self, bookid, chapter):
+        for row in self.table.where('bookid=={} and chapter=={}'.format(bookid, chapter)):
+            return row['embedding']
+
+    def iterate_all_records(self):
+        for row in self.table:
+            yield row['bookid'], row['chapter'], row['embedding']
 
     def close(self):
         self.h5file.close()

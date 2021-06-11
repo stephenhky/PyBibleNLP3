@@ -1,11 +1,9 @@
 
 from argparse import ArgumentParser
 
-from sentence_transformers import SentenceTransformer
-
 from holymining.BibleDBConnector import BibleSQLiteConnector
 from holymining.features import SentenceBERTSentenceFeatureVectorGenerator
-from holymining.featurestore import BibleH5FeatureStore
+from holymining.featurestore import BibleH5FeatureStoreCreator
 
 
 def get_argparser():
@@ -20,15 +18,15 @@ def write_out_embedding(bible_db, sbert_model, output_h5_path):
     connector = BibleSQLiteConnector(bible_db)
     sbert_transformer = SentenceBERTSentenceFeatureVectorGenerator(sbert_model)
     vecdim = sbert_transformer.get_embedding_dimension()
-    embedding_featurestore = BibleH5FeatureStore(output_h5_path, vecdim)
+    embedding_featurestore_creator = BibleH5FeatureStoreCreator(output_h5_path, vecdim)
     for biblechapter in connector.iterate_all_chapters():
         embedding = sbert_transformer.transform(biblechapter['text'])
-        embedding_featurestore.write_embedding(
+        embedding_featurestore_creator.write_embedding(
             biblechapter['bookid'],
             biblechapter['chapter'],
             embedding
         )
-    embedding_featurestore.close()
+    embedding_featurestore_creator.close()
 
 
 if __name__ == '__main__':
