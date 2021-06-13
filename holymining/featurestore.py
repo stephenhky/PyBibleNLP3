@@ -2,7 +2,7 @@
 import tables as tb
 
 
-class BibleH5FeatureStoreCreator:
+class BibleChapterH5FeatureStoreCreator:
     def __init__(self, path, vecdim):
         self.path = path
         self.vecdim = vecdim
@@ -27,7 +27,7 @@ class BibleH5FeatureStoreCreator:
         self.h5file.close()
 
 
-class BibleH5FeatureStoreRetriever:
+class BibleChapterH5FeatureStoreRetriever:
     def __init__(self, path):
         self.path = path
         self.h5file = tb.open_file(self.path, 'r')

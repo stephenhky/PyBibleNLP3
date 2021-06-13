@@ -5,14 +5,12 @@ from operator import itemgetter
 from scipy.spatial.distance import cosine
 
 from holymining.books.biblebooks import idx2books, getBookName
-from holymining.BibleDBConnector import BibleSQLiteConnector
 from holymining.features import SentenceBERTSentenceFeatureVectorGenerator
-from holymining.featurestore import BibleH5FeatureStoreRetriever
+from holymining.featurestore import BibleChapterH5FeatureStoreRetriever
 
 
 def get_argparser():
     argparser = ArgumentParser(description='Retrieving relevant bible chapters.')
-    argparser.add_argument('bible_db', help='SQLiteDB file for the translation')
     argparser.add_argument('sbert_model', help='Name of the Sentence BERT model from huggingface.co (see sbert.net), or the path of the Sentence BERT model')
     argparser.add_argument('featurestore_h5', help='H5 file for feature-store.')
     argparser.add_argument('--nbrecords', type=int, default=5, help='Number of record to show. (Default: 5)')
@@ -38,15 +36,13 @@ def retrieve_bible_chapters(text, sbert_transformer, featurestore_retriever, thr
 
 
 def bible_retriever_console(
-        bible_db,
         sbert_model,
         featurestore_h5_path,
         nbrecords=5,
         threshold=0.0
 ):
-    connector = BibleSQLiteConnector(bible_db)
     sbert_transformer = SentenceBERTSentenceFeatureVectorGenerator(sbert_model)
-    featurestore_retriever = BibleH5FeatureStoreRetriever(featurestore_h5_path)
+    featurestore_retriever = BibleChapterH5FeatureStoreRetriever(featurestore_h5_path)
 
     done = False
     while not done:
@@ -68,14 +64,12 @@ def bible_retriever_console(
 
 if __name__ == '__main__':
     args = get_argparser().parse_args()
-    bible_db = args.bible_db
     sbert_model = args.sbert_model
     featurestore_h5_path = args.featurestore_h5
     nbrecords = args.nbrecords
     threshold = args.threshold
 
     bible_retriever_console(
-        bible_db,
         sbert_model,
         featurestore_h5_path,
         nbrecords=nbrecords,
