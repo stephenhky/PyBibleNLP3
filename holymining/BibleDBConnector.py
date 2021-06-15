@@ -11,7 +11,7 @@ class BibleSQLiteConnector:
         self.cursor = self.conn.cursor()
 
     def iterate_all_chapters(self, preprocess=lambda x: x):
-        iterator = self.cursor.execute("select Book, Chapter, group_concat(Scripture, ' ')" \
+        iterator = self.cursor.execute("select Book, Chapter, group_concat(Scripture, ' ') " \
                                        "from Bible group by book, chapter order by book, chapter")
         for bookid, chapter, text in iterator:
             yield {
@@ -21,7 +21,7 @@ class BibleSQLiteConnector:
             }
 
     def iterate_all_verses(self, preprocess=lambda x: x):
-        iterator = self.cursor.execute("select Book, Chapter, Verse, Scripture from Bible" \
+        iterator = self.cursor.execute("select Book, Chapter, Verse, Scripture from Bible " \
                                        "order by Book, Chapter, Verse")
         for bookid, chapter, verse, text in iterator:
             yield {
@@ -33,9 +33,9 @@ class BibleSQLiteConnector:
 
     def iterate_all_chapters_verselist(self, preprocess=lambda x: x):
         for bookid in range(len(idx2books)):
-            for chapter in range(numchaps[idx2books[bookid]]):
-                iterator = self.cursor.execute("select Verse, Scripture from Bible" \
-                                               "where Book={} and Chapter={}" \
+            for chapter in range(numchaps[idx2books[bookid+1]]):
+                iterator = self.cursor.execute("select Verse, Scripture from Bible " \
+                                               "where Book={} and Chapter={} " \
                                                "order by Verse".format(bookid+1, chapter+1))
                 yield {
                     'bookid': bookid,
