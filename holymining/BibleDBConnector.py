@@ -38,8 +38,8 @@ class BibleSQLiteConnector:
                                                "where Book={} and Chapter={} " \
                                                "order by Verse".format(bookid+1, chapter+1))
                 yield {
-                    'bookid': bookid,
-                    'chapter': chapter,
+                    'bookid': bookid+1,
+                    'chapter': chapter+1,
                     'verse_text': [
                         (verse, preprocess(text))
                         for verse, text in iterator
