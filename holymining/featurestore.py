@@ -36,7 +36,7 @@ class BibleChapterH5FeatureStoreRetriever:
         self.table = self.h5file.root.bible_embedding
 
     def extract_embedding(self, bookid, chapter):
-        for row in self.table.where('bookid=={} and chapter=={}'.format(bookid, chapter)):
+        for row in self.table.where('bookid=={} & chapter=={}'.format(bookid, chapter)):
             return row['embedding']
 
     def iterate_all_records(self):
@@ -83,7 +83,7 @@ class BibleVerseH5FeatureStoreRetriever:
         self.table = self.h5file.root.bible_embedding
 
     def extract_embedding(self, bookid, chapter, verse):
-        for row in self.table.where('bookid=={} and chapter=={} and verse=={}'.format(bookid, chapter, verse)):
+        for row in self.table.where('bookid=={} & chapter=={} & verse=={}'.format(bookid, chapter, verse)):
             return row['embedding']
 
     def iterate_all_records(self):
