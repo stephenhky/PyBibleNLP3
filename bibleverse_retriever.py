@@ -4,7 +4,7 @@ from operator import itemgetter
 
 from scipy.spatial.distance import cosine
 
-from holymining.books.biblebooks import idx2books, getBookName
+from reformedcatutils.biblebooks import idx2books, getBookName
 from holymining.features import SentenceBERTSentenceFeatureVectorGenerator
 from holymining.featurestore import BibleVerseH5FeatureStoreRetriever
 

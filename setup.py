@@ -10,7 +10,7 @@ def install_requirements():
 
 setup(
     name='holymining',
-    version='0.0.1',
+    version='0.0.2',
     description='package of biblical mining',
     author='Kwan-Yuet Ho',
     author_email='stephenhky@yahoo.com.hk',

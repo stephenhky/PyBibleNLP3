@@ -1,7 +1,7 @@
 
 import sqlite3
 
-from .books.biblebooks import idx2books, numchaps
+from reformedcatutils.biblebooks import idx2books, numchaps
 
 
 class BibleSQLiteConnector:
